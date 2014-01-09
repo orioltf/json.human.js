@@ -1,5 +1,12 @@
 /*globals define*/
-define(['crel'], function (crel) {
+(function (root, factory) {
+    "use strict";
+    if (typeof define === 'function' && define.amd) {
+        define(['crel'], factory);
+    } else {
+        root.JsonHuman = factory(root.crel);
+    }
+}(this, function (crel) {
     "use strict";
     var toString = Object.prototype.toString,
         ARRAY = 1,
@@ -56,7 +63,8 @@ define(['crel'], function (crel) {
                     .replace(/ /g, "&nbsp;")
                     .replace(/</g, '&lt;')
                     .replace(/>/g, '&gt;')
-                    .replace(/"/g, '&quot;');
+                    .replace(/[\r\n]/g, '<br/>')
+                    .replace(/"/g, '&quot;'); // ")
             } else {
                 result = crel("span",
                          {"class": p("type-string") + " " + p("empty")},
@@ -136,4 +144,4 @@ define(['crel'], function (crel) {
     return {
         format: format
     };
-});
+}));
